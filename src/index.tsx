@@ -1,38 +1,10 @@
-import 'babel-polyfill'
-import React, { Component } from 'react'
+import React from 'react'
 import ReactDOM from 'react-dom'
 
-const damao = {
-	name: 'damao',
-}
+import Demo from './Demo'
 
-const xiaomao = {
-	name: 'xiaomao',
-}
-
-console.log({
-	...damao,
-	...xiaomao,
-})
-
-const arr = [1, 23]
-
-const target = arr.find(i => i == 1);
-
-(async function () {
-	await null
-	console.log(123)
-})()
-
-console.log(target)
-
-class Demo extends Component {
-	render() {
-		return (
-			<div>halo~</div>
-		)
-	}
-}
+// webpack4 不在需要插件在浏览器注入环境变量了
+// console.log(process.env.NODE_ENV)
 
 ReactDOM.render(
 	<Demo />,

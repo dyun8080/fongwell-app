@@ -1,26 +1,23 @@
 {
 	"presets": [
 		"env",
-		// "react",
 		"stage-0"
+	],
+	"plugins": [
+		[
+			"import",
+			{
+				"libraryName": "antd",
+				"style": true
+			}
+		]
 	],
 	"env": {
 		"development": {
 			"presets": [
-				// "react-hmre"
+				"react-hmre"
 			]
 		},
-		"production": {
-			"plugins": [
-				[
-					"import",
-					{
-						"libraryName": "antd-mobile",
-						"libraryDirectory": "es",
-						"style": true
-					}
-				]
-			]
-		}
+		"production": {}
 	}
 }

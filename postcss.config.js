@@ -4,7 +4,7 @@ module.exports = {
 			browsers: ['last 10 versions']
 		},
 		'postcss-pxtorem': {
-			rootValue: 100,
+			// rootValue: 100,
 			propWhiteList: [],
 		}
 	}
