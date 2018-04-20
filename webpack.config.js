@@ -1,17 +1,19 @@
+import fs from 'fs'
 import path from 'path'
 import webpack from 'webpack'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
+import lessToJs from 'less-vars-to-js'
+import ExtractTextPlugin from 'extract-text-webpack-plugin'
 
 const { NODE_ENV } = process.env
-
-console.log(NODE_ENV)
+const modifyVars = lessToJs(fs.readFileSync(path.join(__dirname, 'assets/styles/__theme.less'), 'utf8'))
 
 const webpackConfig = {
 	mode: NODE_ENV || 'development',
 
 	entry: {
-		babelPolyfill: ['babel-polyfill'],
+		polyfill: ['babel-polyfill'],
 		index: [
 			path.join(__dirname, './src/index.tsx')
 		],
@@ -84,10 +86,6 @@ const webpackConfig = {
 				test: /\.css$/,
 				use: ['style-loader', 'css-loader', 'postcss-loader']
 			},
-			{
-				test: /\.less$/,
-				use: ['style-loader', 'css-loader', 'postcss-loader', 'less-loader']
-			},
 		]
 	},
 }
@@ -99,9 +97,108 @@ if (NODE_ENV !== 'production') {
 		...webpackConfig.entry.index
 	]
 	webpackConfig.plugins.push(new webpack.HotModuleReplacementPlugin())
+	webpackConfig.module.rules = [
+		...webpackConfig.module.rules,
+
+		{
+			test: /\.(less)$/,
+			include: [
+				path.resolve(__dirname, 'src'),
+			],
+			use: [
+				'style-loader',
+				{
+					loader: 'css-loader',
+					options: {
+						modules: true,
+						sourceMap: true,
+						importLoaders: 1,
+						localIdentName: '[name]-[local]__[hash:base64:5]'
+					}
+				},
+				'postcss-loader',
+				{
+					loader: 'less-loader',
+					options: {
+						modifyVars,
+					},
+				},
+			]
+		},
+
+		{
+			test: /\.(less)$/,
+			exclude: [
+				path.resolve(__dirname, 'src'),
+			],
+			use: [
+				'style-loader',
+				'css-loader',
+				'postcss-loader',
+				{
+					loader: 'less-loader',
+					options: {
+						modifyVars,
+					}
+				}
+			]
+		},
+	]
 } else {
+	webpackConfig.plugins.push(new ExtractTextPlugin('styles.[hash:5].min.css'))
 	webpackConfig.plugins.push(new BundleAnalyzerPlugin())
 	webpackConfig.output.filename = '[name].[chunkhash:8].js'
+	webpackConfig.module.rules = [
+
+		...webpackConfig.module.rules,
+
+		{
+			test: /\.(less)$/,
+			include: [
+				path.resolve(__dirname, 'src'),
+			],
+			use: ExtractTextPlugin.extract({
+				fallback: 'style-loader',
+				use: [{
+					loader: 'css-loader',
+					options: {
+						minimize: true,
+						modules: true,
+						importLoaders: 1,
+						localIdentName: '[name]-[local]__[hash:base64:5]'
+					}
+				},
+				'postcss-loader',
+				{
+					loader: 'less-loader',
+					options: {
+						modifyVars,
+					}
+				}],
+			}),
+		},
+
+		{
+			test: /\.(less)$/,
+			exclude: [
+				path.resolve(__dirname, 'src'),
+			],
+			use: ExtractTextPlugin.extract({
+				fallback: 'style-loader',
+				use: [
+					{
+						loader: 'css-loader',
+						options: { minimize: true }
+					},
+					{
+						loader: 'less-loader',
+						options: {
+							modifyVars
+						}
+					}],
+			}),
+		}
+	]
 }
 
 export default webpackConfig

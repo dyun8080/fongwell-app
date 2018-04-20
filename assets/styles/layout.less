@@ -1,0 +1,40 @@
+.layout(100);
+.font-size(50);
+
+.layout(@n, @i: 5) when (@i =< @n) {
+  .mt@{i} {
+    margin-top: (@i * 1px);
+  }
+  .ml@{i} {
+    margin-left: (@i * 1px);
+  }
+  .mb@{i} {
+    margin-bottom: (@i * 1px);
+  }
+  .mt@{i} {
+    margin-top: (@i * 1px);
+  }
+  .mr@{i} {
+    margin-right: (@i * 1px);
+  }
+  .pt@{i} {
+    padding-top: (@i * 1px);
+  }
+  .pr@{i} {
+    padding-right: (@i * 1px);
+  }
+  .pb@{i} {
+    padding-bottom: (@i * 1px);
+  }
+  .pl@{i} {
+    padding-left: (@i * 1px);
+  }
+  .layout(@n, (@i + 5));
+}
+
+.font-size(@n, @i: 12) when (@i =< @n) {
+  .fs@{i} {
+    font-size: (@i * 1px);
+  }
+  .font-size(@n, (@i + 2));
+}

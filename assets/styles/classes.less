@@ -1,0 +1,56 @@
+// @import "~antd-mobile/lib/style/themes/default.less";
+@import "./utils.less";
+// .info-color {
+//   color: @info-color
+// }
+// .error-color {
+//   color: @error-color;
+// }
+// .text-color-secondary {
+//   color: @text-color-secondary
+// }
+
+.borderBottom {
+  border-bottom: #dddddd solid 1px;
+}
+
+.borderLeft {
+  border-left: #dddddd solid 1px;
+}
+
+.borderRight {
+  border-right: #dddddd solid 1px;
+}
+
+.borderTop {
+  border-top: #dddddd solid 1px;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.text-overflow {
+  /* 不换行, 省略号代替 */
+  word-break: keep-all;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.clearfloat::after {
+  display: block;
+  clear: both;
+  content: "";
+  visibility: hidden;
+  height: 0
+}
+
+.clearfloat {
+  zoom: 1
+}
+
+.bg-cover {
+  background-size: cover;
+  background-repeat: no-repeat;
+}

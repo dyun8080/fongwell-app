@@ -8,6 +8,8 @@
 			"import",
 			{
 				"libraryName": "antd",
+				// libraryDirectory不设置为es，webpack-bundle-analyzer在加载less文件的时候会无效
+				"libraryDirectory": "es",
 				"style": true
 			}
 		]
