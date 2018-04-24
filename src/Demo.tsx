@@ -4,7 +4,6 @@ import asyncComponent from './hoc/asyncComponent'
 import { Tag } from 'antd'
 
 const Async3 = asyncComponent(() => import('./Async3'))
-const Async2 = asyncComponent(() => import('./Async2'))
 const Async = asyncComponent(() => import('./Async'))
 
 export default class Demo extends Component {
@@ -16,7 +15,6 @@ export default class Demo extends Component {
 				</div>
 				<Tag>tag</Tag>
 				<Async3 />
-				<Async2 />
 				<Async />
 			</div>
 		)

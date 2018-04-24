@@ -13,7 +13,7 @@ const webpackConfig = {
 	mode: NODE_ENV || 'development',
 
 	entry: {
-		polyfill: ['babel-polyfill'],
+		// polyfill: ['babel-polyfill'],
 		index: [
 			path.join(__dirname, './src/index.tsx')
 		],
@@ -75,7 +75,8 @@ const webpackConfig = {
 						loader: 'css-loader',
 						options: {
 							modules: true,
-							sourceMap: true,
+							minimize: !(NODE_ENV !== 'production'),
+							sourceMap: !!(NODE_ENV !== 'production'),
 							importLoaders: 1,
 							localIdentName: '[name]-[local]__[hash:base64:5]'
 						}
@@ -97,7 +98,10 @@ const webpackConfig = {
 				],
 				use: [
 					'style-loader',
-					'css-loader',
+					{
+						loader: 'css-loader',
+						options: { minimize: !(NODE_ENV !== 'production') }
+					},
 					'postcss-loader',
 					{
 						loader: 'less-loader',
@@ -111,6 +115,12 @@ const webpackConfig = {
 	},
 }
 
+
+/**
+|--------------------------------------------------
+| development
+|--------------------------------------------------
+*/
 if (NODE_ENV !== 'production') {
 	webpackConfig.entry.index = [
 		'webpack/hot/dev-server',
@@ -118,12 +128,13 @@ if (NODE_ENV !== 'production') {
 		...webpackConfig.entry.index
 	]
 	webpackConfig.plugins.push(new webpack.HotModuleReplacementPlugin())
-	// webpackConfig.module.rules = [
-	// 	...webpackConfig.module.rules,
-
-	// ]
-	// env is production
-} else {
+}
+/**
+|--------------------------------------------------
+| production
+|--------------------------------------------------
+*/
+else {
 	webpackConfig.plugins.push(new BundleAnalyzerPlugin())
 	webpackConfig.plugins.push(new MiniCssExtractPlugin({
 		// Options similar to the same options in webpackOptions.output
@@ -160,27 +171,10 @@ if (NODE_ENV !== 'production') {
 	// 	...webpackConfig.module.rules,
 	// ]
 	webpackConfig.module.rules.forEach(item => {
-		if (item.test.toString() == /\.(less)$/.toString()) {
+		if ([/\.(less)$/.toString(), /\.(css)$/.toString(),].includes(item.test.toString())) {
 			item.use.splice(1, 0, MiniCssExtractPlugin.loader)
-			item.use.forEach((i, index) => {
-				if (i === 'css-loader') {
-					item.use[index] = {
-						loader: 'css-loader',
-						options: { minimize: true }
-					}
-				}
-				else if (typeof i === 'object' && i.loader == 'css-loader') {
-					i.options.minimize = true
-					i.options.sourceMap = false
-				}
-				else return
-			})
 		}
 	})
 }
-
-
-console.log(webpackConfig.module.rules)
-
 
 export default webpackConfig

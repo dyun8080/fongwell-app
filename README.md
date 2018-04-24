@@ -29,7 +29,6 @@
 |Name|State|
 |----|----|
 |热替换|`☑️`|
-|浏览器控制台sourceMap（es7），暂时无法map原ts代码||
 
 
 ## Production
@@ -48,7 +47,7 @@
 optimization.splitChunks.cacheGroups.test: /react|react-dom|moment/,   只出现在asyncComponent会在webpack打包的时候报错
 ```
 
-## 2018-4-24 16:09:09
+## 2018-4-24 16:09:09 94d36fe
 #### extract-text-webpack-plugin ==> mini-css-extract-plugin
 
 extract-text-webpack-plugin存在的问题：
@@ -57,5 +56,13 @@ extract-text-webpack-plugin存在的问题：
 
 换成mini-css-extract-plugin就好了很好，解决了css文件异步加载，还有更加清晰的webpack配置
 
-依然不能解决的问题：异步加载出现多次的css样式/js模块怎么通过重复次数一次加载出来？（optimization还是玩的不6啊~）
+依然不能解决的问题：异步加载出现多次的css样式/js模块怎么通过重复次数一次加载出来？（optimization还是玩的不6~）
 
+#### 
+reduce webpack.config.js ( extract-text-webpack-plugin )
+
+
+####未解决的问题：
+-   babel-polyfill与antd的es6+有一部分重复了。
+-   浏览器控制台sourceMap（es7），暂时无法map原ts代码
+-   optimization
