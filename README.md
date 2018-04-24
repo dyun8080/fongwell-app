@@ -58,7 +58,7 @@ extract-text-webpack-plugin存在的问题：
 
 依然不能解决的问题：异步加载出现多次的css样式/js模块怎么通过重复次数一次加载出来？（optimization还是玩的不6~）
 
-#### 
+#### 2018-4-24 20:41:47
 reduce webpack.config.js ( extract-text-webpack-plugin )
 
 
