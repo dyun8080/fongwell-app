@@ -44,28 +44,6 @@ const webpackConfig = {
 		}),
 	],
 
-	optimization: {
-		runtimeChunk: false,
-		splitChunks: {
-			chunks: 'all',
-			minSize: 0,
-			minChunks: 1,
-			maxAsyncRequests: 1,
-			maxInitialRequests: 1,
-			name: true,
-			cacheGroups: {
-				vendor: {
-					name: 'vendor',
-					filename: '[name].[chunkhash:8].js',
-					chunks: 'all',
-					test: /react|react-dom|moment/,
-					minChunks: 1,
-					enforce: true
-				},
-			},
-		}
-	},
-
 	module: {
 		rules: [
 			{
@@ -144,10 +122,35 @@ if (NODE_ENV !== 'production') {
 			]
 		},
 	]
+	// env is production
 } else {
+	webpackConfig.optimization = {
+		runtimeChunk: true,
+		splitChunks: {
+			chunks: 'all',
+			minSize: 0,
+			minChunks: 1,
+			maxAsyncRequests: 1,
+			maxInitialRequests: 1,
+			name: true,
+			cacheGroups: {
+				vendor: {
+					name: 'vendor',
+					filename: '[name].[chunkhash:8].js',
+					chunks: 'all',
+					test: /react|react-dom|moment/,
+					minChunks: 1,
+					enforce: true
+				},
+			},
+		}
+	}
 	webpackConfig.plugins.push(new ExtractTextPlugin('styles.[hash:5].min.css'))
 	webpackConfig.plugins.push(new BundleAnalyzerPlugin())
-	webpackConfig.output.filename = '[name].[chunkhash:8].js'
+
+	webpackConfig.output.filename = 'core/[name].[chunkhash:8].js'
+	webpackConfig.output.chunkFilename = 'core/[name].[chunkhash:8].js'
+
 	webpackConfig.module.rules = [
 
 		...webpackConfig.module.rules,

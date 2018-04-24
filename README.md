@@ -39,3 +39,12 @@
 |压缩客户端代码|`☑️`|
 |代码打包分析|`☑️`|
 
+## 2018-4-24 16:01:46
+
+使用optimization来打包第三方包的时候，必须要在打包主模块的时候出现，不能只在异步加载的模块中出现；
+比如：
+
+```bash
+optimization.splitChunks.cacheGroups.test: /react|react-dom|moment/,   只出现在asyncComponent会在webpack打包的时候报错
+```
+
