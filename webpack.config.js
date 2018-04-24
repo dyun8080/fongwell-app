@@ -4,7 +4,7 @@ import webpack from 'webpack'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
 import lessToJs from 'less-vars-to-js'
-import ExtractTextPlugin from 'extract-text-webpack-plugin'
+import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 
 const { NODE_ENV } = process.env
 const modifyVars = lessToJs(fs.readFileSync(path.join(__dirname, 'assets/styles/__theme.less'), 'utf8'))
@@ -64,6 +64,49 @@ const webpackConfig = {
 				test: /\.css$/,
 				use: ['style-loader', 'css-loader', 'postcss-loader']
 			},
+			{
+				test: /\.(less)$/,
+				include: [
+					path.resolve(__dirname, 'src'),
+				],
+				use: [
+					'style-loader',
+					{
+						loader: 'css-loader',
+						options: {
+							modules: true,
+							sourceMap: true,
+							importLoaders: 1,
+							localIdentName: '[name]-[local]__[hash:base64:5]'
+						}
+					},
+					'postcss-loader',
+					{
+						loader: 'less-loader',
+						options: {
+							modifyVars,
+						},
+					},
+				]
+			},
+
+			{
+				test: /\.(less)$/,
+				exclude: [
+					path.resolve(__dirname, 'src'),
+				],
+				use: [
+					'style-loader',
+					'css-loader',
+					'postcss-loader',
+					{
+						loader: 'less-loader',
+						options: {
+							modifyVars,
+						}
+					}
+				]
+			},
 		]
 	},
 }
@@ -75,57 +118,23 @@ if (NODE_ENV !== 'production') {
 		...webpackConfig.entry.index
 	]
 	webpackConfig.plugins.push(new webpack.HotModuleReplacementPlugin())
-	webpackConfig.module.rules = [
-		...webpackConfig.module.rules,
+	// webpackConfig.module.rules = [
+	// 	...webpackConfig.module.rules,
 
-		{
-			test: /\.(less)$/,
-			include: [
-				path.resolve(__dirname, 'src'),
-			],
-			use: [
-				'style-loader',
-				{
-					loader: 'css-loader',
-					options: {
-						modules: true,
-						sourceMap: true,
-						importLoaders: 1,
-						localIdentName: '[name]-[local]__[hash:base64:5]'
-					}
-				},
-				'postcss-loader',
-				{
-					loader: 'less-loader',
-					options: {
-						modifyVars,
-					},
-				},
-			]
-		},
-
-		{
-			test: /\.(less)$/,
-			exclude: [
-				path.resolve(__dirname, 'src'),
-			],
-			use: [
-				'style-loader',
-				'css-loader',
-				'postcss-loader',
-				{
-					loader: 'less-loader',
-					options: {
-						modifyVars,
-					}
-				}
-			]
-		},
-	]
+	// ]
 	// env is production
 } else {
+	webpackConfig.plugins.push(new BundleAnalyzerPlugin())
+	webpackConfig.plugins.push(new MiniCssExtractPlugin({
+		// Options similar to the same options in webpackOptions.output
+		// both options are optional
+		filename: 'styles/[name].[chunkhash:8].css',
+		chunkFilename: 'styles/[id].chunk.[chunkhash:8].css'
+	}))
+
 	webpackConfig.optimization = {
-		runtimeChunk: true,
+		// runtimeChunk 为true时，会把一个js文件变成2个，总体积变小一点点。但是好像~~好像没什么卵用
+		runtimeChunk: false,
 		splitChunks: {
 			chunks: 'all',
 			minSize: 0,
@@ -145,63 +154,33 @@ if (NODE_ENV !== 'production') {
 			},
 		}
 	}
-	webpackConfig.plugins.push(new ExtractTextPlugin('styles.[hash:5].min.css'))
-	webpackConfig.plugins.push(new BundleAnalyzerPlugin())
-
 	webpackConfig.output.filename = 'core/[name].[chunkhash:8].js'
 	webpackConfig.output.chunkFilename = 'core/[name].[chunkhash:8].js'
-
-	webpackConfig.module.rules = [
-
-		...webpackConfig.module.rules,
-
-		{
-			test: /\.(less)$/,
-			include: [
-				path.resolve(__dirname, 'src'),
-			],
-			use: ExtractTextPlugin.extract({
-				fallback: 'style-loader',
-				use: [{
-					loader: 'css-loader',
-					options: {
-						minimize: true,
-						modules: true,
-						importLoaders: 1,
-						localIdentName: '[name]-[local]__[hash:base64:5]'
-					}
-				},
-				'postcss-loader',
-				{
-					loader: 'less-loader',
-					options: {
-						modifyVars,
-					}
-				}],
-			}),
-		},
-
-		{
-			test: /\.(less)$/,
-			exclude: [
-				path.resolve(__dirname, 'src'),
-			],
-			use: ExtractTextPlugin.extract({
-				fallback: 'style-loader',
-				use: [
-					{
+	// webpackConfig.module.rules = [
+	// 	...webpackConfig.module.rules,
+	// ]
+	webpackConfig.module.rules.forEach(item => {
+		if (item.test.toString() == /\.(less)$/.toString()) {
+			item.use.splice(1, 0, MiniCssExtractPlugin.loader)
+			item.use.forEach((i, index) => {
+				if (i === 'css-loader') {
+					item.use[index] = {
 						loader: 'css-loader',
 						options: { minimize: true }
-					},
-					{
-						loader: 'less-loader',
-						options: {
-							modifyVars
-						}
-					}],
-			}),
+					}
+				}
+				else if (typeof i === 'object' && i.loader == 'css-loader') {
+					i.options.minimize = true
+					i.options.sourceMap = false
+				}
+				else return
+			})
 		}
-	]
+	})
 }
+
+
+console.log(webpackConfig.module.rules)
+
 
 export default webpackConfig
