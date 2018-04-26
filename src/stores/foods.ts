@@ -10,22 +10,20 @@ export class Foods {
 
 	@observable count = 0
 	@observable count2 = 0
-	@observable tabs = []
 
 	@action add = (type: 'count' | 'count2') => {
 		this[type] = this[type] + 1
 	}
 
-
 	@action pushData = () => {
-		this.data.push({ name: 'damao', age: 24 })
+		this.data.push({ name: 'xiaoming', age: 100 })
 
 		setTimeout(() => {
 			this.count = this.count + 1
 		}, 1000)
 	}
 
-	@computed get count3() {
+	@computed get allCount() {
 		return this.count + this.count2
 	}
 }

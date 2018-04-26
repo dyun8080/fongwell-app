@@ -1,7 +1,7 @@
-import foods from './foods'
+import foods, { Foods } from './foods'
 
-const stores = {
+export { Foods }
+
+export default {
 	foods,
 }
-
-export default stores
