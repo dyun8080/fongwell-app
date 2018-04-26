@@ -13,7 +13,6 @@ const webpackConfig = {
 	mode: NODE_ENV || 'development',
 
 	entry: {
-		// polyfill: ['babel-polyfill'],
 		index: [
 			// 'babel-polyfill',
 			path.join(__dirname, './src/index.tsx')
@@ -141,7 +140,7 @@ else {
 		// Options similar to the same options in webpackOptions.output
 		// both options are optional
 		filename: 'styles/[name].[chunkhash:8].css',
-		// chunkFilename: 'styles/[id].chunk.[chunkhash:8].css'
+		chunkFilename: 'styles/[id].chunk.[chunkhash:8].css'
 	}))
 	webpackConfig.optimization = {
 		// runtimeChunk 为true时，会把一个js文件变成2个，总体积变小一点点。但是好像~~好像没什么卵用

@@ -64,3 +64,6 @@ reduce webpack.config.js ( extract-text-webpack-plugin )
 -   babel-polyfill与antd的es6+有一部分重复了。
 -   浏览器控制台sourceMap（es7），暂时无法map原ts代码
 -   异步加载出现多次的css样式/js模块怎么通过重复次数一次加载出来？（optimization还是玩的不6~）
+
+####info 
+- 	antd的reset样式要在至少要在入口文件引用一次。不然BundleAnalyzerPlugin会出现错误

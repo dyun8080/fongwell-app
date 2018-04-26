@@ -1,36 +1,29 @@
 import React, { Component } from 'react'
-import styles from './Demo.less'
-import { Tag, Button } from 'antd'
+// import styles from './Demo.less'
+import { Button, Tag } from 'antd'
 import { observer, inject } from 'mobx-react'
 
 // import foods from './stores/foods'
 
+import { Foods } from './stores/foods'
+
 @inject('foods')
 @observer
 export default class Demo extends Component<any, any> {
-	state = {
-		number: 0,
-	}
-
-	update = () => {
-		this.setState({
-			number: this.state.number + 1,
-		})
-	}
-
+	store: Foods = this.props.foods
 
 	render() {
-		const { foods } = this.props
+		const { store } = this
 
 		return (
 			<div className="mt10">
-				<div className={styles.hehe}>
-					halo~{foods.count3}
+				<div>
+					halo~{store.count3}
 				</div>
-				<Button onClick={() => this.update()}>阿萨德{this.state.number}</Button>
-				<Button onClick={() => foods.add('count')}>add1</Button>
-				<Button onClick={() => foods.add('count2')}>add2</Button>
-				{foods.data.map((item: any) => <Tag key={Math.random()}>{item.name}: {item.age}</Tag>)}
+				<Button onClick={() => store.add('count')}>add1</Button>
+				<Button onClick={() => store.add('count2')}>add2</Button>
+				<Button onClick={() => store.pushData()}>add2</Button>
+				{store.data.map((item: any) => <Tag key={Math.random()}>{item.name}: {item.age}</Tag>)}
 			</div>
 		)
 	}

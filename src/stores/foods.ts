@@ -5,11 +5,12 @@ interface DataValue {
 	age: number
 }
 
-class Foods {
+export class Foods {
 	@observable data: IObservableArray<DataValue> = observable([])
 
 	@observable count = 0
 	@observable count2 = 0
+	@observable tabs = []
 
 	@action add = (type: 'count' | 'count2') => {
 		this[type] = this[type] + 1
