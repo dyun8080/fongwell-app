@@ -10,14 +10,11 @@
     "nodemon": "./node_modules/.bin/nodemon --exec babel-node",
     "babel-node": "./node_modules/.bin/babel-node",
     "es-checker": "./node_modules/.bin/es-checker",
-    "watch": "node -r babel-register ./node_modules/webpack/bin/webpack --watch --config webpack.watch.js",
     "start": "cross-env NODE_ENV=development node -r babel-register server/server.dev.js",
     "build-main": "cross-env NODE_ENV=production node -r babel-register ./node_modules/webpack/bin/webpack --progress --profile --colors",
     "build-main-dev": "cross-env NODE_ENV=development node -r babel-register ./node_modules/webpack/bin/webpack --progress --profile --colors",
     "build": "npm run clean && npm run build-main",
-    "build-dev": "npm run clean && npm run build-main-dev",
-    "dev-webpack": "webpack --mode development",
-    "prod-webpack": "webpack --mode production"
+    "build-dev": "npm run clean && npm run build-main-dev"
   },
   "author": "xiedengyun",
   "license": "ISC",

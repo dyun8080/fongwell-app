@@ -1,21 +1,36 @@
 import React, { Component } from 'react'
 import styles from './Demo.less'
-import asyncComponent from './hoc/asyncComponent'
-import { Tag } from 'antd'
+import { Tag, Button } from 'antd'
+import { observer, inject } from 'mobx-react'
 
-const Async3 = asyncComponent(() => import('./Async3'))
-const Async = asyncComponent(() => import('./Async'))
+// import foods from './stores/foods'
 
-export default class Demo extends Component {
+@inject('foods')
+@observer
+export default class Demo extends Component<any, any> {
+	state = {
+		number: 0,
+	}
+
+	update = () => {
+		this.setState({
+			number: this.state.number + 1,
+		})
+	}
+
+
 	render() {
+		const { foods } = this.props
+
 		return (
 			<div className="mt10">
 				<div className={styles.hehe}>
-					halo~
+					halo~{foods.count3}
 				</div>
-				<Tag>tag</Tag>
-				<Async3 />
-				<Async />
+				<Button onClick={() => this.update()}>阿萨德{this.state.number}</Button>
+				<Button onClick={() => foods.add('count')}>add1</Button>
+				<Button onClick={() => foods.add('count2')}>add2</Button>
+				{foods.data.map((item: any) => <Tag key={Math.random()}>{item.name}: {item.age}</Tag>)}
 			</div>
 		)
 	}
