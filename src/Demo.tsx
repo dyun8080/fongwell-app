@@ -3,49 +3,37 @@ import { Button, Tag } from 'antd'
 import { observer, inject } from 'mobx-react'
 import { RouteComponentProps } from 'react-router-dom'
 
-import { Foods } from './stores'
+import { Food, RouterStore } from './stores'
 
-interface StoresProps {
-	foods?: any
-}
+import { STORE_FOOD, STORE_ROUTER } from './constants'
 
-interface Props extends RouteComponentProps<any>, StoresProps {
+// interface StoresProps {
+// 	food?: any
+// }
 
-}
-
-@inject('foods')
+@inject(STORE_FOOD, STORE_ROUTER)
 @observer
-class ComponentName extends Component<StoresProps, any> {
-	store: Foods = this.props.foods
+export default class Demo extends Component<RouteComponentProps<any>, any> {
+	foodStore = this.props[STORE_FOOD] as Food
+	routerStore = this.props[STORE_ROUTER] as RouterStore
 
 	render() {
-		return (
-			<div>
-				123
-			</div>
-		)
-	}
-}
+		const { foodStore, routerStore } = this
 
+		console.log(routerStore)
 
-
-@inject('foods')
-@observer
-export default class Demo extends Component<Props, any> {
-	store: Foods = this.props.foods
-
-	render() {
-		const { store } = this
 		return (
 			<div className="mt10">
 				<div>
-					halo~{store.allCount}
+					halo~{foodStore.allCount}
 				</div>
-				<ComponentName />
-				<Button onClick={() => store.add('count')}>add1</Button>
-				<Button onClick={() => store.add('count2')}>add2</Button>
-				<Button onClick={() => store.pushData()}>add2</Button>
-				{store.data.map((item: any) => <Tag key={Math.random()}>{item.name}: {item.age}</Tag>)}
+				<Button onClick={() => foodStore.onChange('count', foodStore.count + 1)}>add1</Button>
+				<Button onClick={() => foodStore.onChange('count2', foodStore.count2 + 1)}>add2</Button>
+				<Button onClick={() => foodStore.pushData()}>add2</Button>
+
+				<Button onClick={() => { routerStore.history }}></Button>
+
+				{foodStore.data.map((item: any) => <Tag key={Math.random()}>{item.name}: {item.age}</Tag>)}
 			</div>
 		)
 	}

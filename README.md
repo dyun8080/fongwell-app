@@ -66,4 +66,4 @@ reduce webpack.config.js ( extract-text-webpack-plugin )
 -   异步加载出现多次的css样式/js模块怎么通过重复次数一次加载出来？（optimization还是玩的不6~）
 
 ####info 
-- 	antd的reset样式要在至少要在入口文件引用一次。不然BundleAnalyzerPlugin会出现错误
+- 	antd要在至少要在入口文件引用一次。不然BundleAnalyzerPlugin会出现错误

@@ -157,7 +157,8 @@ else {
 					name: 'vendor',
 					filename: '[name].[chunkhash:8].js',
 					chunks: 'all',
-					test: /react|react-dom|moment/,
+					// test: /react|react-dom|moment/,
+					test: /react|react-dom/,
 					minChunks: 1,
 					enforce: true
 				},

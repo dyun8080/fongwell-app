@@ -1,7 +1,4 @@
-import foods, { Foods } from './foods'
+export * from './Food'
+export * from './RouterStore'
+export * from './createStore'
 
-export { Foods }
-
-export default {
-	foods,
-}

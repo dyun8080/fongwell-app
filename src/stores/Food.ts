@@ -1,26 +1,26 @@
 import { observable, action, computed, IObservableArray } from 'mobx'
 
+import Action from './Action'
+
 interface DataValue {
 	name: string
 	age: number
+
+	[key: string]: any
+
 }
 
-export class Foods {
-	@observable data: IObservableArray<DataValue> = observable([])
+export class Food extends Action {
+	static id = 0
+
+	@observable data: IObservableArray<DataValue> = [] as any
 
 	@observable count = 0
 	@observable count2 = 0
 
-	@action add = (type: 'count' | 'count2') => {
-		this[type] = this[type] + 1
-	}
-
 	@action pushData = () => {
 		this.data.push({ name: 'xiaoming', age: 100 })
 
-		setTimeout(() => {
-			this.count = this.count + 1
-		}, 1000)
 	}
 
 	@computed get allCount() {
@@ -28,6 +28,4 @@ export class Foods {
 	}
 }
 
-const store = new Foods()
-
-export default store
+export default Food

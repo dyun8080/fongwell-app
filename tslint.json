@@ -24,7 +24,9 @@
 		// 	"log",
 		// 	"error"
 		// ],
-		"no-inferrable-types": true,
+
+		// "no-inferrable-types": true,
+
 		// "no-null-keyword": true,
 		// "no-var-requires": true,
 		"no-return-await": true
