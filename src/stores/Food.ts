@@ -1,5 +1,6 @@
 import { observable, action, computed, IObservableArray } from 'mobx'
 
+
 import Action from './Action'
 
 interface DataValue {
@@ -10,8 +11,12 @@ interface DataValue {
 
 }
 
+
 export class Food extends Action {
 	static id = 0
+	constructor() {
+		super()
+	}
 
 	@observable data: IObservableArray<DataValue> = [] as any
 

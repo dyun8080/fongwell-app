@@ -31,6 +31,7 @@ const webpackConfig = {
 		extensions: ['.json', '.jsx', '.js', '.ts', '.tsx'],
 		alias: {
 			assets: path.resolve(__dirname, 'assets'),
+			'@components': path.resolve(__dirname, 'src/components'),
 		},
 	},
 
@@ -122,6 +123,7 @@ const webpackConfig = {
 |--------------------------------------------------
 */
 if (NODE_ENV !== 'production') {
+	webpackConfig.devtool = 'cheap-module-eval-source-map'
 	webpackConfig.entry.index = [
 		'webpack/hot/dev-server',
 		'webpack-dev-server/client?http://0.0.0.0:8080/',

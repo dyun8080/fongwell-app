@@ -8,12 +8,8 @@ import {
 } from '../constants'
 
 export function createStores(history: History) {
-
-	const FoodStore = new Food()
-	const routerStore = new RouterStore(history)
-
 	return {
-		[STORE_FOOD]: FoodStore,
-		[STORE_ROUTER]: routerStore,
+		[STORE_FOOD]: new Food(),
+		[STORE_ROUTER]: new RouterStore(history),
 	}
 }
