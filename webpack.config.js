@@ -144,29 +144,23 @@ else {
 		filename: 'styles/[name].[chunkhash:8].css',
 		chunkFilename: 'styles/[id].chunk.[chunkhash:8].css'
 	}))
-	webpackConfig.optimization = {
-		// runtimeChunk 为true时，会把一个js文件变成2个，总体积变小一点点。但是好像~~好像没什么卵用
-		runtimeChunk: false,
-		splitChunks: {
-			chunks: 'all',
-			minSize: 0,
-			minChunks: 1,
-			maxAsyncRequests: 1,
-			maxInitialRequests: 1,
-			name: true,
-			cacheGroups: {
-				vendor: {
-					name: 'vendor',
-					filename: '[name].[chunkhash:8].js',
-					chunks: 'all',
-					// test: /react|react-dom|moment/,
-					test: /react|react-dom/,
-					minChunks: 1,
-					enforce: true
-				},
-			},
-		}
-	}
+	// webpackConfig.optimization = {
+	// 	splitChunks: {
+	// 		name: true,
+	// 		cacheGroups: {
+	// 			// commons: {
+	// 			// 	chunks: 'initial',
+	// 			// 	minChunks: 6
+	// 			// },
+	// 			vendors: {
+	// 				test: /[\\/]node_modules[\\/]/,
+	// 				chunks: 'all',
+	// 				priority: -10
+	// 			}
+	// 		}
+	// 	},
+	// 	// runtimeChunk: true
+	// }
 	webpackConfig.output.filename = 'core/[name].[chunkhash:8].js'
 	webpackConfig.output.chunkFilename = 'core/[name].[chunkhash:8].js'
 	// webpackConfig.module.rules = [

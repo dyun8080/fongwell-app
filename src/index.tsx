@@ -1,44 +1,62 @@
 import 'babel-polyfill'
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { HashRouter as Router, withRouter } from 'react-router-dom'
-import { observable } from 'mobx'
-import { Provider } from 'mobx-react'
-import { LocaleProvider, Button } from 'antd'
-import zhCN from 'antd/lib/locale-provider/zh_CN'
-import { createBrowserHistory } from 'history'
 import asyncComponent from './hoc/asyncComponent'
-import { createStores } from './stores'
-
-import '../assets/styles/layout.less'
-import '../assets/styles/classes.less'
-
-// console.log(process.env.NODE_ENV)
-
-const Demo = asyncComponent(() => import('./Demo'))
-const Demo2 = asyncComponent(() => import('./Demo2'))
-
-const Wrap = withRouter(props => <Demo {...props} />)
-
-console.log(observable)
+import { Button, Modal } from 'antd'
+import modal, { WrappedComponentProps } from './hoc/modal'
 
 
-// prepare MobX stores
-const history = createBrowserHistory()
-const rootStore = createStores(history)
+const Async1 = asyncComponent(() => import('./Async1'))
+const Async2 = asyncComponent(() => import('./Async2'))
+const Async3 = asyncComponent(() => import('./Async3'))
 
+@modal
+class Async1Modal extends React.Component<WrappedComponentProps, any> {
+	render() {
+		return (
+			<Modal
+				visible={this.props.visible}
+				onCancel={() => this.props.handleCancel()}
+			>
+				<Async1 />
+			</Modal>
+		)
+	}
+}
+
+@modal
+class Async2Modal extends React.Component<WrappedComponentProps, any> {
+	render() {
+		return (
+			<Modal
+				visible={this.props.visible}
+				onCancel={() => this.props.handleCancel()}
+			>
+				<Async2 />
+			</Modal>
+		)
+	}
+}
+
+@modal
+class Async3Modal extends React.Component<WrappedComponentProps, any> {
+	render() {
+		return (
+			<Modal
+				visible={this.props.visible}
+				onCancel={() => this.props.handleCancel()}
+			>
+				<Async3 />
+			</Modal>
+		)
+	}
+}
 
 ReactDOM.render(
-	<LocaleProvider locale={zhCN}>
-		<Provider {...rootStore}>
-			<Router>
-				<div>
-					<Button>阿萨德</Button>
-					<Demo2 />
-					<Wrap />
-				</div>
-			</Router>
-		</Provider>
-	</LocaleProvider>,
+	<div>
+		<Async1Modal><Button>Async1</Button></Async1Modal>
+		<Async2Modal><Button>Async1</Button></Async2Modal>
+		<Async3Modal><Button>Async3Modal</Button></Async3Modal>
+	</div>,
 	document.getElementById('root') as HTMLElement,
 )

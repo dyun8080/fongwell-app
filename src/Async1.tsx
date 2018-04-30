@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
+import moment from 'moment'
 
 export default class extends Component {
 	render() {
 		return (
 			<div>
-				button
+				Async1:
+				{moment().format('YYYY-MM-DD')}
 			</div>
 		)
 	}
