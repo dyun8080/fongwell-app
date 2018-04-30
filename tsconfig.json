@@ -7,7 +7,7 @@
 		"experimentalDecorators": true,
 		"noUnusedParameters": true,
 		"noUnusedLocals": true,
-		"noEmitOnError": true,
+		"noEmitOnError": false,
 		"noImplicitAny": false,
 		"target": "es2017",
 		"removeComments": true,

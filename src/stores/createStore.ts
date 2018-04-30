@@ -1,15 +1,19 @@
 import './mobxConfig'
 import { History } from 'history'
-import { Food } from './Food'
 import { RouterStore } from './RouterStore'
+import { TodoStore } from './TodoStore'
+import { TodoModel } from '../models'
+
 import {
-	STORE_FOOD,
+	STORE_TODO,
 	STORE_ROUTER,
 } from '../constants'
 
-export function createStores(history: History) {
+export function createStores(history: History, defaultTodos: TodoModel[]) {
+	const todoStore = new TodoStore(defaultTodos)
+	const routerStore = new RouterStore(history)
 	return {
-		[STORE_FOOD]: new Food(),
-		[STORE_ROUTER]: new RouterStore(history),
+		[STORE_TODO]: todoStore,
+		[STORE_ROUTER]: routerStore,
 	}
 }

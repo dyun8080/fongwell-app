@@ -1,2 +1,2 @@
-export const STORE_FOOD = 'food'
-export const STORE_ROUTER = 'router'
+export const STORE_TODO = 'TodoStore'
+export const STORE_ROUTER = 'RouterStore'
