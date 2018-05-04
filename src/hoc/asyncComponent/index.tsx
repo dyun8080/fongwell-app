@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default (importComponent: any): any => {
+export default (importComponent: any): React.ComponentType<any> => {
 	return class extends React.Component {
 		state = {
 			component: null,
