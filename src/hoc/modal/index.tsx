@@ -6,18 +6,18 @@ interface Props {
 }
 
 interface State {
-	visible?: boolean
-	confirmLoading?: boolean
+	visible: boolean
+	confirmLoading: boolean
 }
 
 export interface WrappedComponentImplements {
-	onConfirmLoading?: any
-	handleCancel?: any
+	onConfirmLoading: any
+	handleCancel: any
 }
 
 export interface WrappedComponentProps extends Props, State, WrappedComponentImplements { }
 
-export default (WrappedComponent: any): any => {
+export default function (WrappedComponent: React.ComponentType<WrappedComponentProps>): React.ComponentType<Props> {
 	return class extends React.Component<Props, State> implements WrappedComponentImplements {
 		state = {
 			visible: false,
